@@ -1,0 +1,18 @@
+2025-10-02 18:45:29 INFO  com.astronaut.scheduler.Main - Astronaut Scheduler starting...
+2025-10-02 18:45:29 INFO  c.a.s.manager.ScheduleManager - Task added: Morning Briefing (09:00 - 10:00)
+2025-10-02 18:45:29 WARN  com.astronaut.scheduler.Main - Operation failed: Task not found: nonexistent
+2025-10-02 18:45:29 WARN  com.astronaut.scheduler.Main - Operation failed: Task not found: 1
+2025-10-02 18:45:29 INFO  c.a.s.manager.ScheduleManager - Task added: Team Standup (10:00 - 11:00)
+2025-10-02 18:45:29 WARN  c.a.s.manager.ScheduleManager - Task conflict detected: Code Review conflicts with Morning Briefing
+2025-10-02 18:45:29 WARN  c.a.s.observer.ConflictNotifier - Conflict: New task 'Code Review' (09:30-10:30) conflicts with existing task 'Morning Briefing' (09:00-10:00)
+2025-10-02 18:45:29 WARN  com.astronaut.scheduler.Main - Operation failed: Task conflicts with existing task 'Morning Briefing'.
+2025-10-02 18:45:29 WARN  com.astronaut.scheduler.Main - Operation failed: Task not found: 1
+2025-10-02 18:45:29 WARN  com.astronaut.scheduler.Main - Operation failed: Task not found: 1
+2025-10-02 18:45:30 INFO  com.astronaut.scheduler.Main - Astronaut Scheduler stopped.
+2025-10-02 18:46:30 INFO  com.astronaut.scheduler.Main - Astronaut Scheduler starting...
+2025-10-02 18:46:30 INFO  c.a.s.manager.ScheduleManager - Task added: Morning Briefing (09:00 - 10:00)
+2025-10-02 18:46:30 WARN  com.astronaut.scheduler.Main - Operation failed: Task not found: 
+2025-10-02 18:46:30 INFO  com.astronaut.scheduler.Main - Astronaut Scheduler stopped.
+2025-10-02 18:46:40 INFO  com.astronaut.scheduler.Main - Astronaut Scheduler starting...
+2025-10-02 18:46:40 INFO  c.a.s.manager.ScheduleManager - Task added: Morning Briefing (09:00 - 10:00)
+2025-10-02 18:46:40 INFO  com.astronaut.scheduler.Main - Astronaut Scheduler stopped.
