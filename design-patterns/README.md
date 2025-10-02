@@ -1,4 +1,4 @@
-# Design Patterns Demo — Java (Maven)
+# Design Patterns — Java (Maven)
 
 This repository is a complete Java Maven project demonstrating six design patterns across Behavioral, Creational, and Structural categories. Each class is placed in its own file and follows Java best practices. The project includes logging (SLF4J + Logback), defensive programming, transient error handling (RetryPolicy), input validation, and an interactive long-running console app (menu driven) — implemented without a hard-coded `while(true)` loop.
 
