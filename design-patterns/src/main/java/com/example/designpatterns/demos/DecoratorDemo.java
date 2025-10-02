@@ -10,10 +10,10 @@ public class DecoratorDemo {
     public static void runDemo() {
         logger.info("Running Decorator Pattern demo: Message decorators");
 
-        MessageService svc = new SimpleMessageService();
-        svc = new CompressionDecorator(svc);
-        svc = new EncryptionDecorator(svc);
+        MessageService service = new SimpleMessageService();
+        service = new CompressionDecorator(service);
+        service = new EncryptionDecorator(service);
 
-        svc.send("Hello Patterns!");
+        service.send("Hello Patterns!");
     }
 }

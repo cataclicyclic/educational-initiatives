@@ -73,12 +73,20 @@ public class Main {
                         case "menu":
                             printMenu();
                             break;
+                        case "help":
+                            printHelp();
+                            break;
                         case "exit":
                             logger.info("Exit requested. Shutting down...");
                             running = false;
                             break;
                         default:
-                            System.out.println("Unknown command: " + cmd + ". type 'menu' to show options or 'exit' to quit.");
+                            if (cmd.startsWith("help ")) {
+                                String pattern = cmd.substring(5).trim();
+                                printPatternHelp(pattern);
+                            } else {
+                                System.out.println("Unknown command: " + cmd + ". Type 'menu' to show options, 'help' for general help, or 'exit' to quit.");
+                            }
                     }
                 }
             } catch (InterruptedException e) {
@@ -110,8 +118,57 @@ public class Main {
         System.out.println("5 - Adapter Pattern (Payment gateway adapter)");
         System.out.println("6 - Decorator Pattern (Message decorators)");
         System.out.println("menu - show this menu");
+        System.out.println("help - general help");
+        System.out.println("help <number> - help for specific pattern");
         System.out.println("exit - stop the app");
         System.out.println("Enter choice: ");
+    }
+
+    private static void printHelp() {
+        System.out.println("=== General Help ===");
+        System.out.println("This app demonstrates six common design patterns in Java.");
+        System.out.println("Each pattern solves a specific problem in software design.");
+        System.out.println("Select a number (1-6) to run an interactive demo.");
+        System.out.println("Use 'help <number>' for details on a specific pattern.");
+        System.out.println("Type 'menu' to see options again.");
+        System.out.println("Type 'exit' to quit.");
+    }
+
+    private static void printPatternHelp(String pattern) {
+        switch (pattern) {
+            case "1":
+                System.out.println("=== Strategy Pattern Help ===");
+                System.out.println("Allows selecting an algorithm at runtime.");
+                System.out.println("In this demo: Choose discount strategies for a shopping cart.");
+                break;
+            case "2":
+                System.out.println("=== Observer Pattern Help ===");
+                System.out.println("Notifies multiple objects about state changes.");
+                System.out.println("In this demo: Order status changes notify observers.");
+                break;
+            case "3":
+                System.out.println("=== Factory Method Help ===");
+                System.out.println("Creates objects without specifying exact classes.");
+                System.out.println("In this demo: Parse different document types.");
+                break;
+            case "4":
+                System.out.println("=== Builder Pattern Help ===");
+                System.out.println("Constructs complex objects step by step.");
+                System.out.println("In this demo: Build a report with optional parts.");
+                break;
+            case "5":
+                System.out.println("=== Adapter Pattern Help ===");
+                System.out.println("Makes incompatible interfaces work together.");
+                System.out.println("In this demo: Adapt a third-party payment processor.");
+                break;
+            case "6":
+                System.out.println("=== Decorator Pattern Help ===");
+                System.out.println("Adds behavior to objects dynamically.");
+                System.out.println("In this demo: Decorate messages with compression/encryption.");
+                break;
+            default:
+                System.out.println("Unknown pattern: " + pattern + ". Use 1-6.");
+        }
     }
 
     private static void shutdownGracefully(ExecutorService... services) {
