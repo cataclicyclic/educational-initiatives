@@ -19,10 +19,18 @@ public class AdapterDemo {
 
         // Get payment details
         System.out.print("Enter payment amount: ");
-        double amount = Double.parseDouble(scanner.nextLine().trim());
+        String amountStr = scanner.nextLine().trim();
+        double amount = amountStr.isEmpty() ? 100.0 : Double.parseDouble(amountStr);
 
-        System.out.print("Enter card number: ");
+        System.out.print("Enter card number (or press Enter for default): ");
         String cardNumber = scanner.nextLine().trim();
+        if (cardNumber.isEmpty()) {
+            cardNumber = "4111111111111111"; // Default test card number (16 digits)
+            System.out.println("Using default card number: " + cardNumber);
+        } else if (cardNumber.length() < 12) {
+            System.out.println("Card number too short, using default: 4111111111111111");
+            cardNumber = "4111111111111111";
+        }
 
         PaymentRequest request = new PaymentRequest(cardNumber, amount);
 
@@ -31,7 +39,8 @@ public class AdapterDemo {
         System.out.println("1 - Standard Gateway");
         System.out.println("2 - Third-Party Gateway (via Adapter)");
         System.out.print("Enter choice: ");
-        int choice = Integer.parseInt(scanner.nextLine().trim());
+        String choiceStr = scanner.nextLine().trim();
+        int choice = choiceStr.isEmpty() ? 2 : Integer.parseInt(choiceStr);
 
         PaymentGateway gateway;
         if (choice == 2) {

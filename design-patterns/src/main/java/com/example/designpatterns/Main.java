@@ -21,16 +21,19 @@ public class Main {
 
         // Scheduled background telemetry (no while(true))
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(() -> logger.debug("Heartbeat - app alive"),
-                0, config.getHeartbeatSeconds(), TimeUnit.SECONDS);
+        // Disable heartbeat to avoid interfering with input parsing
+        // scheduler.scheduleAtFixedRate(() -> logger.debug("Heartbeat - app alive"),
+        //         0, config.getHeartbeatSeconds(), TimeUnit.SECONDS);
 
         // Input reader thread (blocking on console input)
         ExecutorService inputReader = Executors.newSingleThreadExecutor();
+        final BufferedReader[] brRef = new BufferedReader[1]; // to access from inner class
         inputReader.submit(() -> {
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            try {
+                brRef[0] = new BufferedReader(new InputStreamReader(System.in));
                 String line;
                 printMenu();
-                while ((line = br.readLine()) != null) {
+                while ((line = brRef[0].readLine()) != null) {
                     String trimmed = line.trim();
                     if (!trimmed.isEmpty()) {
                         commandQueue.put(trimmed);
@@ -41,34 +44,86 @@ public class Main {
                 }
             } catch (Exception e) {
                 logger.error("Input reader failed", e);
+            } finally {
+                if (brRef[0] != null) {
+                    try {
+                        brRef[0].close();
+                    } catch (Exception e) {
+                        logger.warn("Error closing input reader", e);
+                    }
+                }
             }
         });
 
         // Menu processor: consumes commands and executes demos
         ExecutorService menuProcessor = Executors.newSingleThreadExecutor();
+        final boolean[] demoRunning = {false}; // flag to prevent concurrent demos
         menuProcessor.submit(() -> {
             try {
                 boolean running = true;
                 while (running) {
                     String cmd = commandQueue.take(); // blocks until a command is available
+
+                    // Skip commands if a demo is already running
+                    if (demoRunning[0]) {
+                        System.out.println("Demo already running. Please wait for it to complete.");
+                        continue;
+                    }
+
                     switch (cmd.toLowerCase()) {
                         case "1":
-                            StrategyDemo.runDemo();
+                            demoRunning[0] = true;
+                            try {
+                                StrategyDemo.runDemo();
+                            } finally {
+                                demoRunning[0] = false;
+                                printMenu(); // show menu again after demo
+                            }
                             break;
                         case "2":
-                            ObserverDemo.runDemo();
+                            demoRunning[0] = true;
+                            try {
+                                ObserverDemo.runDemo();
+                            } finally {
+                                demoRunning[0] = false;
+                                printMenu(); // show menu again after demo
+                            }
                             break;
                         case "3":
-                            FactoryDemo.runDemo();
+                            demoRunning[0] = true;
+                            try {
+                                FactoryDemo.runDemo();
+                            } finally {
+                                demoRunning[0] = false;
+                                printMenu(); // show menu again after demo
+                            }
                             break;
                         case "4":
-                            BuilderDemo.runDemo();
+                            demoRunning[0] = true;
+                            try {
+                                BuilderDemo.runDemo();
+                            } finally {
+                                demoRunning[0] = false;
+                                printMenu(); // show menu again after demo
+                            }
                             break;
                         case "5":
-                            AdapterDemo.runDemo();
+                            demoRunning[0] = true;
+                            try {
+                                AdapterDemo.runDemo();
+                            } finally {
+                                demoRunning[0] = false;
+                                printMenu(); // show menu again after demo
+                            }
                             break;
                         case "6":
-                            DecoratorDemo.runDemo();
+                            demoRunning[0] = true;
+                            try {
+                                DecoratorDemo.runDemo();
+                            } finally {
+                                demoRunning[0] = false;
+                                printMenu(); // show menu again after demo
+                            }
                             break;
                         case "menu":
                             printMenu();
